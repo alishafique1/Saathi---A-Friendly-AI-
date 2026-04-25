@@ -1,0 +1,103 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and latest energy state",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "latestEnergyLevel": { "type": "integer", "description": "1-5 scale" },
+        "calendarSyncEnabled": { "type": "boolean" },
+        "lastCalendarSync": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "createdAt"]
+    },
+    "Habit": {
+      "title": "Habit",
+      "description": "Recurring activity to be tracked",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "frequency": { "type": "string", "enum": ["daily", "weekly", "custom"] },
+        "targetTime": { "type": "string", "description": "Suggested time in HH:mm" },
+        "anchorEventId": { "type": "string", "description": "ID of Calendar event it anchors to" },
+        "driftOffsetMinutes": { "type": "integer", "description": "Current day offset due to anchor drift" },
+        "streak": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "frequency", "createdAt"]
+    },
+    "HabitLog": {
+      "title": "Habit Log",
+      "description": "Evidence of habit completion",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "habitId": { "type": "string" },
+        "userId": { "type": "string" },
+        "status": { "type": "string", "enum": ["completed", "skipped", "failed"] },
+        "energyAtTime": { "type": "integer" },
+        "loggedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["habitId", "userId", "status", "loggedAt"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "Personal task with AI-assigned energy requirement",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "due": { "type": "string", "format": "date-time" },
+        "energyRequired": { "type": "integer", "description": "AI estimate 1-5" },
+        "isCompleted": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "createdAt"]
+    },
+    "JournalEntry": {
+      "title": "Journal Entry",
+      "description": "Daily thoughts for AI pattern recognition",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "content": { "type": "string" },
+        "sentiment": { "type": "string", "enum": ["positive", "neutral", "negative"] },
+        "energyLevel": { "type": "integer" },
+        "type": { "type": "string", "enum": ["reflection", "mind-dump"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "content", "energyLevel", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/habits/{habitId}": {
+      "schema": "Habit",
+      "description": "Habit definitions"
+    },
+    "/habitLogs/{logId}": {
+      "schema": "HabitLog",
+      "description": "Logs of daily habits"
+    },
+    "/tasks/{taskId}": {
+      "schema": "Task",
+      "description": "User tasks"
+    },
+    "/journals/{journalId}": {
+      "schema": "JournalEntry",
+      "description": "Daily reflections"
+    }
+  }
+}

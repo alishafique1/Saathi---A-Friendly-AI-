@@ -1,0 +1,6 @@
+{
+  "name": "Saathi — AI Habit Architect",
+  "description": "A proactive Life-OS that uses AI to stack habits and tasks into your real-world calendar based on your energy levels. Syncs with Google Calendar to manage schedules and drifting anchors.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["google_calendar_sync"]
+}
