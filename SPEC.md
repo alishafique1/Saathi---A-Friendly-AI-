@@ -1,49 +1,47 @@
-# Saathi — Life Tracker: Habit-First Build Plan (CASA-Safe MVP)
+# Saathi — Life Tracker: Build Plan & Progress
 
 ## 1. Product Vision & Positioning
 *   **One-Line Pitch:** An AI-powered Habit & Task Architect that anchors your personal growth goals into your real-world schedule.
-*   **Core Problem Solved:** The "Aspiration vs. Reality" gap. People set habits (e.g., "Mediate daily") but forget them because their calendar is a mess.
-*   **CASA Bypass Strategy:** **No Gmail.** We focus on Google Calendar & Tasks (Sensitive Scopes) to avoid the Level 2 Security Audit, allowing for a 4-week launch window instead of 4 months.
+*   **Design Philosophy:** "Apple New Design Language" - Minimalist, typography-focused, text-based navigation. Warm editorial mood with emphasis on data and ritual.
+*   **Core Problem Solved:** The "Aspiration vs. Reality" gap. People set habits but forget them because their calendar is a mess.
 
 ---
 
-## 2. Core Features (MVP)
-*   **AI Habit Stacking (The "Anchor" Feature):**
-    *   Gemini reads your Google Calendar.
-    *   It identifies "Anchor Points" (e.g., "Right after your Daily Standup") and suggests scheduling habits there.
+## 2. Status & Progress
+*   [x] **Foundation:** React + Vite + Tailwind + Firebase.
+*   [x] **Authentication:** Google Auth with Calendar & Tasks scopes.
+*   [x] **UI Version 2.0:** Transitioned from big tiles to minimalist text-menu navigation ("Briefing", "Routine", "Growth").
+*   [x] **The Briefing:** AI-generated daily summary based on calendar and energy state.
+*   [x] **The Ritual (Routine):** Habit tracking with streak logic and "Anchor" mapping.
+*   [x] **Growth (Tasks):** Goal tracking integrated with Google Tasks.
+*   [x] **Saathi Companion:** AI chat interface for habit creation and scheduling assistance.
+*   [ ] **Refinement:** Polishing animations and cross-device responsiveness.
+
+---
+
+## 3. Core Features
+*   **AI Habit Stacking:** Gemini identifies "Anchor Points" in your schedule for habit suggestions.
 *   **Energy-Aware Dashboard:**
-    *   **Morning Briefing:** Gemini summarizes your day: "Tight morning, but 2 PM is open for deep work."
-    *   **Energy Log:** A quick tap (1-5) to log energy levels. The app re-sorts tasks based on your current state.
-*   **Unified Habit & Task List:**
-    *   **Habits:** Streak-based tracking with "Skipped" vs. "Failed" logic (to keep momentum without guilt).
-    *   **Tasks:** Sync with Google Tasks for cross-platform utility.
-*   **Intelligent Nudges:**
-    *   Context-aware reminders: "You have your big presentation in 1 hour. Time for a 5-minute breathing session to reset?"
+    *   **Morning Briefing:** Minimalist text summary of the day.
+    *   **Energy State:** 1-5 scale capture to re-sort priorities.
+*   **Bottom Text Menu:** Minimalist navigation following premium mobile app patterns.
+*   **Integrated Saathi:** A companion that stays in the background until needed, accessible via button.
 
 ---
 
-## 3. Technical Architecture
-*   **Frontend:** React Native (Expo) - Fast iteration, cross-platform.
-*   **Backend:** Firebase (Auth, Firestore, Functions).
-*   **AI Layer:** Gemini 1.5 Flash.
-    *   **Prompt Architecture:** "Schedule-to-Habit Mapping" - Providing a JSON of the user's calendar and a list of habits, asking Gemini for the optimal timestamp for each.
+## 4. Technical Architecture
+*   **Frontend:** React (Vite) + Tailwind CSS + Framer Motion.
+*   **Backend:** Firebase (Auth, Firestore).
+*   **AI Layer:** Gemini 1.5 Flash (via `@google/genai`).
+*   **Integrations:** Google Calendar API, Google Tasks API.
 *   **Data Model:**
     *   `Habit`: Definition (name, frequency, target_time).
     *   `HabitLog`: Daily completion status, energy_at_time.
-    *   `Task`: Mirror of Google Tasks.
-    *   `ScheduleSnap`: Cached calendar events for the next 48 hours.
+    *   `Task`: Energy-weighted personal tasks.
 
 ---
 
-## 4. Build Plan (Quick Wins)
-1.  **Week 1:** Google Auth + Calendar Sync. Build the "Unified Pulse" dashboard.
-2.  **Week 2:** Habit CRUD + Streak Logic.
-3.  **Week 3:** **The Brain.** Implement the "Anchor Suggester" - a Gemini function that suggests habit times based on `ScheduleSnap`.
-4.  **Week 4:** Energy Check-in UI + AI Morning Briefing.
-
----
-
-## 5. Risks & Open Questions
-*   **Verification:** Still requires Google Cloud Project Verification, but much simpler without Gmail scopes.
-*   **HealthKit:** iOS integration for automated energy logs (e.g., sleep data) - *Future Milestone.*
-
+## 5. Security & Invariants
+*   **Siloed Data:** Strict Firestore rules (`isOwner()`) for all collections.
+*   **Integrity:** Automatic `userId` tagging and server-side timestamp validation.
+*   **Privacy:** External API tokens stored only in session/local state (handled by Google Auth).

@@ -94,11 +94,11 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-zinc-50 dark:bg-zinc-950">
+      <div className="flex items-center justify-center min-h-screen bg-white">
         <motion.div 
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full"
+          className="w-8 h-8 border-2 border-brand-orange border-t-transparent rounded-full shadow-[0_4px_10px_rgba(255,92,0,0.1)]"
         />
       </div>
     );
@@ -106,27 +106,27 @@ export default function App() {
 
   if (!user) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-zinc-950 p-4 text-center relative overflow-hidden transition-colors duration-300">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-white p-4 text-center relative overflow-hidden transition-colors duration-300">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute -top-1/4 -left-1/4 w-[80%] h-[80%] bg-indigo-600/10 dark:bg-indigo-600/20 rounded-full blur-[120px]" />
-          <div className="absolute -bottom-1/4 -right-1/4 w-[80%] h-[80%] bg-fuchsia-600/10 dark:bg-fuchsia-600/20 rounded-full blur-[120px]" />
+          <div className="absolute -top-1/4 -left-1/4 w-[80%] h-[80%] bg-brand-orange/5 rounded-full blur-[120px]" />
+          <div className="absolute -bottom-1/4 -right-1/4 w-[80%] h-[80%] bg-brand-purple/5 rounded-full blur-[120px]" />
         </div>
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full bg-zinc-50/50 dark:bg-white/5 backdrop-blur-2xl p-8 sm:p-12 rounded-[56px] shadow-2xl border border-zinc-200 dark:border-white/10 relative z-10"
+          className="max-w-md w-full saathi-card p-10 sm:p-14 shadow-2xl relative z-10 border-zinc-100"
         >
-          <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-fuchsia-500 rounded-[34px] flex items-center justify-center mx-auto mb-10 shadow-2xl shadow-indigo-500/30 transform -rotate-6">
-            <Brain className="w-12 h-12 text-white" />
+          <div className="w-24 h-24 bg-brand-orange flex items-center justify-center mx-auto mb-10 shadow-[0_10px_40px_rgba(255,92,0,0.2)]">
+            <Zap className="w-12 h-12 text-white fill-white" />
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold font-display text-zinc-900 dark:text-white mb-4">Saathi</h1>
-          <p className="text-zinc-500 dark:text-zinc-400 mb-12 text-lg leading-relaxed">Your supportive friend helping you manage your day, habits, and tasks with care.</p>
+          <h1 className="text-72px font-serif text-black mb-4 italic uppercase tracking-tighter font-black">SAATHI<span className="text-brand-orange">.</span></h1>
+          <p className="text-[10px] text-zinc-400 mb-12 font-black uppercase tracking-[0.5em] italic">High Performance Life Operating System</p>
           <button
             onClick={handleSignIn}
-            className="w-full py-5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 rounded-3xl font-bold hover:opacity-90 transition-all flex items-center justify-center gap-4 text-lg shadow-xl"
+            className="btn-accent w-full py-6 flex items-center justify-center gap-4"
           >
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" className="w-6 h-6" />
-            Sign in with Google
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" className="w-5 h-5" />
+            INITIALIZE SESSION
           </button>
         </motion.div>
       </div>
@@ -134,101 +134,75 @@ export default function App() {
   }
 
   return (
-    <div className="flex h-screen bg-zinc-50 dark:bg-zinc-950 relative overflow-hidden transition-colors duration-300">
-      <AnimatePresence>
-        {isSidebarOpen && (
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            onClick={() => setIsSidebarOpen(false)}
-            className="fixed inset-0 bg-zinc-950/60 backdrop-blur-sm z-40 lg:hidden"
-          />
-        )}
-      </AnimatePresence>
+    <div className="flex flex-col h-screen bg-white relative font-sans selection:bg-brand-orange selection:text-white">
+      {/* Background Mesh - Deeper & More Vibrant */}
+      <div className="fixed inset-0 pointer-events-none -z-10 bg-white overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-brand-orange/5 blur-[160px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[70%] h-[70%] rounded-full bg-brand-purple/5 blur-[180px]" />
+      </div>
 
-      <aside className={`
-        fixed lg:static inset-y-0 left-0 w-72 bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-white/5 flex flex-col z-50 transition-all duration-300
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-      `}>
-        <div className="p-8 shrink-0">
-          <div className="flex items-center justify-between mb-12">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-fuchsia-500 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                <Brain className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-xl font-bold text-zinc-900 dark:text-white font-display">Saathi</span>
+      <main className="flex-1 overflow-y-auto pb-40">
+        <header className="max-w-7xl mx-auto px-8 pt-10 pb-10 border-b border-zinc-100">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-6 group">
+              <motion.div 
+                whileHover={{ rotate: 90 }}
+                className="w-12 h-12 bg-brand-orange flex items-center justify-center shadow-[0_10px_30px_rgba(255,92,0,0.1)] group-hover:shadow-[0_15px_40px_rgba(255,92,0,0.2)] transition-all"
+              >
+                <Zap className="w-7 h-7 text-white fill-white" />
+              </motion.div>
+              <h1 className="text-36px font-serif text-black font-black italic uppercase tracking-tighter leading-none">SAATHI<span className="text-brand-orange">.</span></h1>
             </div>
-            <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden">
-              <X className="w-6 h-6 text-zinc-500" />
-            </button>
-          </div>
-
-          <nav className="space-y-2">
-            <button 
-              onClick={() => { setCurrentView('today'); setIsSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-bold transition-all ${
-                currentView === 'today' 
-                  ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 shadow-xl shadow-indigo-500/10' 
-                  : 'text-zinc-500 hover:bg-zinc-100 dark:hover:bg-white/5'
-              }`}
-            >
-              <LayoutDashboard className="w-5 h-5" />
-              <span>Today</span>
-            </button>
-            <button 
-              onClick={() => { setCurrentView('routine'); setIsSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-bold transition-all ${
-                currentView === 'routine' 
-                  ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 shadow-xl shadow-indigo-500/10' 
-                  : 'text-zinc-500 hover:bg-zinc-100 dark:hover:bg-white/5'
-              }`}
-            >
-              <Flame className="w-5 h-5" />
-              <span>Routine</span>
-            </button>
-            <button 
-              onClick={() => { setCurrentView('goals'); setIsSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-bold transition-all ${
-                currentView === 'goals' 
-                  ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 shadow-xl shadow-indigo-500/10' 
-                  : 'text-zinc-500 hover:bg-zinc-100 dark:hover:bg-white/5'
-              }`}
-            >
-              <Zap className="w-5 h-5" />
-              <span>Goals</span>
-            </button>
-          </nav>
-        </div>
-
-        <div className="p-6 mt-auto">
-          <div className="flex items-center gap-2">
-            <button onClick={logOut} className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-zinc-500 hover:text-red-500 transition-all font-bold text-sm">
-              <LogOut className="w-4 h-4" />
-              Sign Out
-            </button>
-            <button onClick={toggleTheme} className="p-3 rounded-xl text-zinc-500 hover:text-zinc-900 dark:hover:text-white">
-              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-      </aside>
-
-      <main className="flex-1 overflow-y-auto relative">
-        <div className="lg:hidden flex items-center justify-between p-6 bg-white dark:bg-zinc-950 border-b border-zinc-200 dark:border-white/5 sticky top-0 z-30">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-fuchsia-500 rounded-lg flex items-center justify-center">
-              <Brain className="w-5 h-5 text-white" />
+            <div className="flex items-center gap-8">
+              <button onClick={logOut} className="group flex items-center gap-4 py-2 text-[10px] font-black text-zinc-400 uppercase tracking-[0.5em] hover:text-black transition-all">
+                TERMINATE_SESSION <div className="w-1.5 h-1.5 bg-zinc-200 group-hover:bg-brand-orange transition-all" />
+              </button>
             </div>
-            <span className="font-bold text-zinc-900 dark:text-white font-display">Saathi</span>
           </div>
-          <button onClick={() => setIsSidebarOpen(true)}>
-            <Menu className="w-6 h-6 text-zinc-500" />
-          </button>
-        </div>
+        </header>
 
-        <div className="p-6 md:p-12 max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto mt-16">
           <PulseDashboard user={user} googleToken={accessToken} view={currentView} />
         </div>
       </main>
+
+      {/* Bottom Text Menu */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-2xl border-t border-zinc-100 px-8 py-10 pb-12 flex items-center justify-center gap-24 z-50">
+        {[
+          { id: 'today', label: 'Telemetry' },
+          { id: 'routine', label: 'Ritual' },
+          { id: 'goals', label: 'Mission' },
+        ].map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setCurrentView(tab.id as any)}
+            className="relative"
+          >
+            <span className={`text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-500 ${
+              currentView === tab.id 
+                ? 'text-brand-orange scale-110' 
+                : 'text-zinc-300 hover:text-zinc-500'
+            }`}>
+              {tab.label}
+            </span>
+            {currentView === tab.id && (
+              <motion.div
+                layoutId="activeTabUnderline"
+                className="absolute -bottom-2 left-0 right-0 h-[2px] bg-brand-orange rounded-full shadow-[0_4px_10px_rgba(255,92,0,0.2)]"
+                transition={{ type: 'spring', stiffness: 400, damping: 40 }}
+              />
+            )}
+          </button>
+        ))}
+      </nav>
     </div>
   );
 }
+
+// Helper icons
+const UserIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+    <circle cx="12" cy="7" r="4" />
+  </svg>
+);

@@ -1,5 +1,6 @@
 import { GoogleGenAI, Type, FunctionDeclaration } from "@google/genai";
 import { Habit, Task, HabitLog, JournalEntry } from "../types";
+import { CalendarEvent } from "./calendar";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -134,7 +135,7 @@ export async function getTodayBriefing(
   events: CalendarEvent[],
   energyLevel: number
 ) {
-  const completedHabits = habitLogs.filter(l => l.status === 'completed' && l.loggedAt.toDate().toDateString() === new Date().toDateString());
+  const completedHabits = habitLogs.filter(l => l.status === 'completed' && l.loggedAt && l.loggedAt.toDate().toDateString() === new Date().toDateString());
   const completedTasks = tasks.filter(t => t.isCompleted);
   const upcomingEvents = events.filter(e => new Date(e.start.dateTime || e.start.date || '').getTime() > Date.now());
 

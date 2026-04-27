@@ -5,7 +5,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { startSaathiChat } from '../services/gemini';
 import { Habit, Task } from '../types';
 import { createGoogleTask } from '../services/tasks';
-import { MessageCircle, X, Send, User as UserIcon, Bot, Loader2, CheckCircle } from 'lucide-react';
+import { MessageCircle, X, Send, User as UserIcon, Bot, Loader2, CheckCircle, Plus } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 
@@ -160,74 +160,83 @@ export default function SaathiChat({ user, googleToken, habits, tasks, energyLev
       {/* Chat Toggle */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-lg hover:shadow-indigo-500/40 transition-all flex items-center justify-center group z-50 overflow-hidden"
+        className="fixed bottom-32 right-8 w-16 h-16 bg-white text-brand-orange rounded-full border-2 border-zinc-100 shadow-2xl hover:border-brand-orange hover:shadow-[0_4px_20px_rgba(255,92,0,0.2)] transition-all flex items-center justify-center z-50 group"
       >
-         <div className="absolute inset-0 bg-indigo-400/20 scale-0 group-hover:scale-150 transition-transform duration-500 rounded-full" />
-         <MessageCircle className="w-6 h-6 relative z-10" />
+         <MessageCircle className="w-7 h-7 group-hover:scale-110 transition-transform" />
       </button>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 w-[400px] max-w-[calc(100vw-48px)] h-[600px] max-h-[calc(100vh-120px)] bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden"
+            initial={{ opacity: 0, scale: 0.98, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.98, y: 20 }}
+            className="fixed bottom-32 right-8 w-[450px] max-w-[calc(100vw-64px)] h-[700px] max-h-[calc(100vh-160px)] bg-white border border-zinc-100 shadow-[0_20px_80px_rgba(0,0,0,0.1)] z-50 flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="p-4 border-b border-zinc-100 dark:border-white/5 flex items-center justify-between bg-indigo-50/50 dark:bg-indigo-500/5">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-500/20 flex items-center justify-center">
-                  <Bot className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+            <div className="p-8 border-b border-zinc-100 flex items-center justify-between bg-white">
+              <div className="flex items-center gap-6">
+                <div className="relative">
+                  <div className="w-12 h-12 bg-brand-orange flex items-center justify-center">
+                    <Bot className="w-7 h-7 text-white" />
+                  </div>
+                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-brand-purple border-2 border-white" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-zinc-900 dark:text-white">Saathi</h3>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    <span className="text-[10px] text-zinc-400 uppercase tracking-widest font-bold">Always Here</span>
+                  <h3 className="text-[14px] font-black text-black uppercase tracking-[0.5em] leading-none">SAATHI_LINK</h3>
+                  <div className="flex items-center gap-3 mt-2">
+                    <div className="w-1.5 h-1.5 bg-brand-orange animate-pulse" />
+                    <span className="text-[9px] font-black text-zinc-300 uppercase tracking-widest italic">NEURAL_CALIBRATION_ACTIVE</span>
                   </div>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-2 hover:bg-zinc-100 dark:hover:bg-white/5 rounded-xl transition-colors"
+                className="w-10 h-10 flex items-center justify-center hover:bg-zinc-50 transition-colors group"
               >
-                <X className="w-5 h-5 text-zinc-400" />
+                <X className="w-6 h-6 text-zinc-200 group-hover:text-black" />
               </button>
             </div>
 
             {/* Messages */}
             <div 
               ref={scrollRef}
-              className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth"
+              className="flex-1 overflow-y-auto p-10 space-y-12 scroll-smooth bg-zinc-50 relative"
             >
+              {/* Scanline Effect */}
+              <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0)_50%,rgba(0,0,0,0.02)_50%)] bg-[length:100%_4px] z-20 opacity-50" />
+
               {messages.length === 0 && (
-                <div className="h-full flex flex-col items-center justify-center text-center px-8 space-y-6">
-                  <Bot className="w-12 h-12 text-zinc-200 dark:text-zinc-800" />
-                  <p className="text-sm text-zinc-400 font-medium">
-                    "I'm Saathi, your life companion. I can help you set habits, goals, or schedule your calendar. Just ask me."
-                  </p>
-                  <div className="grid grid-cols-2 gap-2 w-full">
+                <div className="h-full flex flex-col justify-center space-y-16 relative z-10">
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-[1px] bg-brand-orange" />
+                      <span className="text-[10px] font-black text-brand-orange uppercase tracking-[0.8em] italic">READY_FOR_INPUT</span>
+                    </div>
+                    <p className="text-42px font-serif text-black font-black italic uppercase tracking-tighter leading-[0.9]">
+                      How is the <span className="text-brand-orange">signal</span> today?
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-4">
                     {[
-                      { label: "New Habit", icon: "🌱", prompt: "I want to start a new habit" },
-                      { label: "Set Goal", icon: "🎯", prompt: "I have a new goal to set" },
-                      { label: "Schedule", icon: "📅", prompt: "I need to schedule something" },
-                      { label: "Status", icon: "✨", prompt: "How's my day looking?" }
+                      { label: "Check status", prompt: "How's my day looking?" },
+                      { label: "Focus window", prompt: "I need to focus on a difficult task" },
+                      { label: "New anchor", prompt: "I want to start a new habit" }
                     ].map((item) => (
                       <button
                         key={item.label}
                         onClick={() => handleSend(item.prompt)}
-                        className="flex items-center gap-2 p-3 bg-zinc-50 dark:bg-white/5 border border-zinc-100 dark:border-white/10 rounded-2xl text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:border-indigo-200 dark:hover:border-indigo-500/30 transition-all text-left"
+                        className="text-[11px] font-black text-zinc-400 uppercase tracking-[0.4em] hover:text-black hover:bg-white hover:shadow-sm p-5 border border-zinc-100 group transition-all flex items-center justify-between"
                       >
-                        <span className="text-sm">{item.icon}</span>
                         {item.label}
+                        <Plus className="w-4 h-4 opacity-10 group-hover:opacity-100 transition-opacity text-brand-orange" />
                       </button>
                     ))}
                   </div>
                 </div>
               )}
               {messages.map((msg, i) => {
-                if (msg.role === 'tool') return null; // Don't show technical tool messages
+                if (msg.role === 'tool') return null;
                 const isModel = msg.role === 'model';
                 const text = msg.parts.find(p => p.text)?.text;
                 if (!text) return null;
@@ -235,21 +244,23 @@ export default function SaathiChat({ user, googleToken, habits, tasks, energyLev
                 return (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, x: isModel ? -10 : 10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className={`flex gap-3 ${isModel ? 'flex-row' : 'flex-row-reverse'}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`flex flex-col relative z-30 ${isModel ? 'items-start' : 'items-end'}`}
                   >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                      isModel ? 'bg-indigo-100 dark:bg-indigo-900/30' : 'bg-zinc-100 dark:bg-zinc-800'
-                    }`}>
-                      {isModel ? <Bot className="w-4 h-4 text-indigo-600" /> : <UserIcon className="w-4 h-4 text-zinc-600" />}
+                    <div className={`flex items-center gap-3 mb-3 ${isModel ? 'flex-row' : 'flex-row-reverse'}`}>
+                       <span className={`text-[9px] font-black uppercase tracking-[0.4em] italic ${isModel ? 'text-zinc-300' : 'text-brand-purple'}`}>
+                        {isModel ? 'RELAY_SAATHI' : 'UPLINK_USER'}
+                       </span>
+                      <div className={`w-1 h-1 rounded-full ${isModel ? 'bg-brand-orange' : 'bg-brand-purple'}`} />
                     </div>
-                    <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${
+                    
+                    <div className={`max-w-[95%] p-6 ${
                       isModel 
-                        ? 'bg-zinc-100 dark:bg-white/5 text-zinc-800 dark:text-zinc-200 rounded-tl-none' 
-                        : 'bg-indigo-600 text-white rounded-tr-none'
+                        ? 'bg-white border border-zinc-100 text-zinc-600 leading-relaxed font-medium shadow-sm' 
+                        : 'bg-brand-orange/5 border border-brand-orange/20 text-brand-orange font-black italic uppercase tracking-tight text-xl leading-none'
                     }`}>
-                      <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed">
+                      <div className="prose prose-sm max-w-none prose-p:leading-relaxed prose-pre:bg-zinc-50 prose-pre:border prose-pre:border-zinc-100 prose-zinc prose-invert-none">
                         <ReactMarkdown>
                           {text}
                         </ReactMarkdown>
@@ -259,43 +270,36 @@ export default function SaathiChat({ user, googleToken, habits, tasks, energyLev
                 );
               })}
               {isLoading && (
-                <div className="flex gap-3">
-                  <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
-                    <Loader2 className="w-4 h-4 text-indigo-600 animate-spin" />
-                  </div>
-                  <div className="bg-zinc-100 dark:bg-white/5 p-3 rounded-2xl rounded-tl-none">
-                    <div className="flex gap-1">
-                      <div className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-600 animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <div className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-600 animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <div className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-600 animate-bounce" style={{ animationDelay: '300ms' }} />
-                    </div>
-                  </div>
+                <div className="flex items-center gap-4 py-4">
+                  <Loader2 className="w-5 h-5 text-brand-orange animate-spin" />
+                  <span className="text-[10px] font-black text-brand-orange uppercase tracking-[0.6em] animate-pulse italic">PROCESSING_BITSTREAM...</span>
                 </div>
               )}
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-zinc-100 dark:border-white/5 bg-zinc-50/50 dark:bg-zinc-900/50">
-              <div className="relative">
+            <div className="p-10 border-t border-zinc-100 bg-white">
+              <div className="relative group">
                 <input
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Tell Saathi anything..."
-                  className="w-full pl-4 pr-12 py-3 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-white/10 rounded-2xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm dark:text-white"
+                  placeholder="TRANSMIT_COMMAND..."
+                  className="w-full py-6 bg-transparent border-b-2 border-zinc-100 focus:border-brand-orange outline-none text-[13px] font-black uppercase tracking-[0.5em] text-black transition-all placeholder:text-zinc-100"
                 />
                 <button
                   onClick={() => handleSend()}
                   disabled={!input.trim() || isLoading}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 disabled:opacity-50 transition-colors"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 p-4 text-zinc-100 hover:text-brand-orange disabled:opacity-0 transition-all"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-6 h-6" />
                 </button>
               </div>
-              <p className="text-[10px] text-zinc-400 text-center mt-3 font-medium">
-                "I'm here to companion you in your intentions, not replace them."
-              </p>
+              <div className="pt-6 flex justify-between items-center">
+                <span className="text-[8px] font-black text-zinc-100 uppercase tracking-[0.4em]">ENCRYPTION: AES-256</span>
+                <span className="text-[8px] font-black text-brand-orange uppercase tracking-[0.4em]">LATENCY: 42MS</span>
+              </div>
             </div>
           </motion.div>
         )}
